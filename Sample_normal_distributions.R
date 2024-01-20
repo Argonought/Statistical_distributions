@@ -29,7 +29,13 @@ Sample_normal_distributions <- function(n_number, mean_vec, sd_vec){
   if (!length(mean_vec)==length(n_number)) stop("Vectors of mean and n number
                                                 must be of equal length")
   #Generate normal distributions
-  mapply(rnorm, n_number, mean_vec, sd_vec)
+  dists <- mapply(rnorm, n_number, mean_vec, sd_vec)
+  #Name each element in the list (required to convert to tibble)
+  namestring <- 1:length(n_number)
+  names(dists) <- namestring
+  #Return the list of normal distributions
+  dists
+  #TO DO make function which makes names including sample size, mean, sd
 }
 
 # generate the help file for the function using roxygen2
