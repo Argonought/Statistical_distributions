@@ -31,11 +31,18 @@ Sample_normal_distributions <- function(n_number, mean_vec, sd_vec){
   #Generate normal distributions
   dists <- mapply(rnorm, n_number, mean_vec, sd_vec)
   #Name each element in the list (required to convert to tibble)
-  namestring <- 1:length(n_number)
+  namestring <- paste0("Normal_sampleno_",n_number,
+                       "_mean_",mean_vec,
+                       "_sd_",sd_vec)
   names(dists) <- namestring
+  #Make the tibble, un-nest the list, then add character vector 
+  #naming distribution for each value
+  dists <- dists %>%
+    as_tibble_col(column_name = "Value") %>%
+    unnest(cols=1) %>%
+    mutate(Distribution=rep(namestring, times=n_number))
   #Return the list of normal distributions
   dists
-  #TO DO make function which makes names including sample size, mean, sd
 }
 
 # generate the help file for the function using roxygen2
